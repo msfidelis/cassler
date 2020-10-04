@@ -11,10 +11,11 @@ import (
 )
 
 type Certificate struct {
-	CommonName string
-	NotBefore  time.Time
-	NotAfter   time.Time
-	TimeRemain time.Duration
+	CommonName         string
+	NotBefore          time.Time
+	NotAfter           time.Time
+	TimeRemain         time.Duration
+	SignatureAlgorithm string
 }
 
 func main() {
@@ -39,7 +40,7 @@ func main() {
 	for _, ip := range ips {
 
 		dialer := net.Dialer{Timeout: 1000000000, Deadline: time.Now().Add(1000000000 + 5*time.Second)}
-		connection, err := tls.DialWithDialer(&dialer, "tcp", fmt.Sprintf("[%s]:%d", ip, *port), &tls.Config{ServerName: host})
+		connection, err := tls.DialWithDialer(&dialer, "tcp", fmt.Sprintf("[%s]:%d", ip, *port), &tls.Config{ServerName: host, InsecureSkipVerify: false})
 		defer connection.Close()
 
 		if err != nil {
@@ -61,10 +62,12 @@ func main() {
 					}
 
 					var certificate Certificate
+
 					certificate.CommonName = cert.Subject.CommonName
 					certificate.NotAfter = cert.NotAfter
 					certificate.NotBefore = cert.NotBefore
 					certificate.TimeRemain = cert.NotAfter.Sub(time.Now())
+					certificate.SignatureAlgorithm = cert.SignatureAlgorithm.String()
 					certificate_list[string(cert.Subject.CommonName)] = certificate
 
 				}
@@ -75,12 +78,13 @@ func main() {
 
 	fmt.Printf("Resolving: %s on port %d \n\n", host, *port)
 
-	fmt.Printf("Common Names: \n")
+	fmt.Printf("Server Certificate: \n")
 	for _, data := range certificate_list {
-		fmt.Printf("%s\n\n", data.CommonName)
+		fmt.Printf("Common Name: %s\n", data.CommonName)
+		fmt.Printf("Signature Algorithm: %s\n", data.SignatureAlgorithm)
 		fmt.Printf("Created: %s\n", data.NotBefore)
 		fmt.Printf("Expires: %s\n", data.NotAfter)
-		fmt.Printf("Expiration time: %d days\n", int(data.TimeRemain.Hours()/24))
+		fmt.Printf("Expiration time: %d days\n", ParseDurationInDays(data.TimeRemain.Hours()))
 	}
 
 	fmt.Printf("\nServer IP's: \n")
@@ -122,4 +126,10 @@ func ParseHost(url string) string {
 	result = strings.TrimPrefix(result, "ftp://")
 	result = strings.TrimPrefix(result, "ws://")
 	return result
+}
+
+func ParseDurationInDays(duration float64) int {
+	floatDays := duration / 24
+	parsedDays := int(floatDays)
+	return parsedDays
 }
