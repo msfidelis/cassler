@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"strings"
 	"time"
+
+	"github.com/msfidelis/cassler/src/libs/lookup"
+	"github.com/msfidelis/cassler/src/libs/parser"
 )
 
 type Certificate struct {
@@ -29,8 +31,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	host := ParseHost(*url)
-	ips := Lookup(host)
+	host := parser.ParseHost(*url)
+	ips := lookup.Lookup(host)
 
 	checked_certificates := make(map[string]string)
 	certificate_authorities := make(map[string]string)
@@ -92,7 +94,7 @@ func main() {
 		fmt.Printf("Signature Algorithm: %s\n", data.SignatureAlgorithm)
 		fmt.Printf("Created: %s\n", data.NotBefore)
 		fmt.Printf("Expires: %s\n", data.NotAfter)
-		fmt.Printf("Expiration time: %d days\n", ParseDurationInDays(data.TimeRemain.Hours()))
+		fmt.Printf("Expiration time: %d days\n", parser.ParseDurationInDays(data.TimeRemain.Hours()))
 	}
 
 	fmt.Printf("\nServer IP's: \n")
@@ -105,39 +107,4 @@ func main() {
 		fmt.Printf("* %s \n", ca)
 	}
 
-}
-
-func Lookup(url string) []net.IP {
-	timer := time.NewTimer(1000000000)
-	ch := make(chan []net.IP, 1)
-	go func() {
-		r, err := net.LookupIP(url)
-		if err != nil {
-			fmt.Printf("%v", err)
-		}
-		ch <- r
-	}()
-	select {
-	case ips := <-ch:
-		return ips
-	case <-timer.C:
-		fmt.Printf("timeout resolving %s\n", url)
-	}
-	return make([]net.IP, 0)
-}
-
-func ParseHost(url string) string {
-	var result string
-	result = strings.ToLower(url)
-	result = strings.TrimPrefix(result, "https://")
-	result = strings.TrimPrefix(result, "http://")
-	result = strings.TrimPrefix(result, "ftp://")
-	result = strings.TrimPrefix(result, "ws://")
-	return result
-}
-
-func ParseDurationInDays(duration float64) int {
-	floatDays := duration / 24
-	parsedDays := int(floatDays)
-	return parsedDays
 }
