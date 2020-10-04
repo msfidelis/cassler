@@ -39,38 +39,46 @@ func main() {
 
 	for _, ip := range ips {
 
+		conn_config := &tls.Config{
+			ServerName:         host,
+			InsecureSkipVerify: true,
+		}
+
 		dialer := net.Dialer{Timeout: 1000000000, Deadline: time.Now().Add(1000000000 + 5*time.Second)}
-		connection, err := tls.DialWithDialer(&dialer, "tcp", fmt.Sprintf("[%s]:%d", ip, *port), &tls.Config{ServerName: host, InsecureSkipVerify: false})
+		connection, err := tls.DialWithDialer(&dialer, "tcp", fmt.Sprintf("[%s]:%d", ip, *port), conn_config)
 		defer connection.Close()
 
 		if err != nil {
 			fmt.Printf("%v\n", err)
 		} else {
-			for _, chain := range connection.ConnectionState().VerifiedChains {
-				for _, cert := range chain {
 
-					// Filter Certificate Already Validated
-					if _, checked := checked_certificates[string(cert.Signature)]; checked {
-						continue
-					}
-					checked_certificates[string(cert.Signature)] = cert.Subject.CommonName
+			certificate_negotiation_list := connection.ConnectionState().PeerCertificates
 
-					// Filter Certificate Authority
-					if cert.IsCA {
-						certificate_authorities[string(cert.Subject.CommonName)] = cert.Subject.CommonName
-						continue
-					}
+			for i := 0; i < len(certificate_negotiation_list); i++ {
+				cert := certificate_negotiation_list[i]
 
-					var certificate Certificate
-
-					certificate.CommonName = cert.Subject.CommonName
-					certificate.NotAfter = cert.NotAfter
-					certificate.NotBefore = cert.NotBefore
-					certificate.TimeRemain = cert.NotAfter.Sub(time.Now())
-					certificate.SignatureAlgorithm = cert.SignatureAlgorithm.String()
-					certificate_list[string(cert.Subject.CommonName)] = certificate
-
+				// Filter Certificate Already Validated
+				if _, checked := checked_certificates[string(cert.Signature)]; checked {
+					continue
 				}
+				checked_certificates[string(cert.Signature)] = cert.Subject.CommonName
+
+				// Filter Certificate Authority
+				if cert.IsCA {
+					certificate_authorities[string(cert.Subject.CommonName)] = cert.Subject.CommonName
+					continue
+				}
+
+				var certificate Certificate
+
+				certificate.CommonName = cert.Subject.CommonName
+				certificate.NotAfter = cert.NotAfter
+				certificate.NotBefore = cert.NotBefore
+				certificate.TimeRemain = cert.NotAfter.Sub(time.Now())
+				certificate.SignatureAlgorithm = cert.SignatureAlgorithm.String()
+
+				certificate_list[string(cert.Subject.CommonName)] = certificate
+
 			}
 		}
 
