@@ -23,3 +23,25 @@ jobs:
 
       - name: Test
         run: go test -v
+
+  build-docker-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v1
+        with:
+          go-version: '1.15.x'
+
+
+      - name: Docker Build
+        run: docker build -t cassler:latest .
+
+      - name: Docker Tag
+        run: docker tag cassler:latest fidelissauro/cassler:latest
+
+      - name: Docker Login
+        run: echo '${DOCKER_PASSWORD}' | docker login -u '${DOCKER_USERNAME}' --password-stdin
+
+      - name: Docker Push
+        run: docker push fidelissauro/cassler:latest
+
+      
