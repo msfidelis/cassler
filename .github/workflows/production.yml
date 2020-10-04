@@ -1,0 +1,25 @@
+name: 'cassler ci'
+on:
+  push:
+  pull_request:
+    types: [ opened, reopened ]
+jobs:
+  unit-test:
+    strategy:
+      matrix:
+        go-version: [1.14.x, 1.15.x]
+        platform: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+
+      - uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - uses: actions/checkout@v1
+
+      - name: Install dependencies
+        run: go get -u 
+
+      - name: Test
+        run: go test -v
