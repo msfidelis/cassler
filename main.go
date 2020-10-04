@@ -48,7 +48,6 @@ func main() {
 
 		dialer := net.Dialer{Timeout: 1000000000, Deadline: time.Now().Add(1000000000 + 5*time.Second)}
 		connection, err := tls.DialWithDialer(&dialer, "tcp", fmt.Sprintf("[%s]:%d", ip, *port), conn_config)
-		defer connection.Close()
 
 		if err != nil {
 			fmt.Printf("%v\n", err)
