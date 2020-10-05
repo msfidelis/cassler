@@ -1,7 +1,6 @@
 package main_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/msfidelis/cassler/src/libs/lookup"
@@ -130,9 +129,6 @@ func TestParserHours(t *testing.T) {
 	if days != expected_days {
 		t.Errorf("Expected %d, got %d", expected_days, days)
 	}
-
-	fmt.Printf("%v", days)
-
 }
 
 // Lookup

@@ -5,7 +5,7 @@ Validate SSL around web :spider:
 ## Running Tests
 
 ```bash
-go test -v
+go test -v -race
 ```
 
 ## Installation
