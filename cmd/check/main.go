@@ -27,6 +27,8 @@ func Cmd(url string, port int) {
 	certificate_authorities := make(map[string]string)
 	certificate_list := make(map[string]Certificate)
 
+	fmt.Printf("Checking Certificates: %s on port %d \n\n", host, port)
+
 	for _, ip := range ips {
 
 		conn_config := &tls.Config{
@@ -72,8 +74,6 @@ func Cmd(url string, port int) {
 		}
 
 	}
-
-	fmt.Printf("Resolving: %s on port %d \n\n", host, port)
 
 	fmt.Printf("Server Certificate: \n")
 	for _, data := range certificate_list {
