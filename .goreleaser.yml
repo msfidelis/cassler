@@ -1,2 +1,26 @@
+release:
+  prerelease: false
+
+builds:
+  - binary: cassler
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+
+brews:
+  - github:
+      owner: msfidelis
+      name: homebrew-cassler
+    homepage: "https://github.com/msfidelis/cassler/"
+    description: "Validate SSL around web :spider:"
+
 archives:
-  format: binary
+  - format: binary
+    format_overrides:
+      - goos: windows
+        format: zip
