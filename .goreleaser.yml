@@ -12,12 +12,12 @@ builds:
     goarch:
       - amd64
 
-brews:
-  - github:
-      owner: msfidelis
-      name: homebrew-cassler
-    homepage: "https://github.com/msfidelis/cassler/"
-    description: "Validate SSL around web :spider:"
+# brews:
+#   - github:
+#       owner: msfidelis
+#       name: homebrew-cassler
+#     homepage: "https://github.com/msfidelis/cassler/"
+#     description: "Validate SSL around web :spider:"
 
 archives:
   - format: binary
