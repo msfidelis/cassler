@@ -27,6 +27,7 @@ jobs:
   build-docker-artifacts:
     needs: [ unit-test ]
     runs-on: ubuntu-latest
+    if: contains(github.ref, 'batata')
     steps:
       - uses: actions/setup-go@v1
         with:
