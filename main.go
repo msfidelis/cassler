@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/msfidelis/cassler/cmd/check"
+	"github.com/msfidelis/cassler/cmd/tls"
 )
 
 func main() {
@@ -21,6 +22,21 @@ func main() {
 			os.Exit(1)
 		}
 		check.Cmd(*url, *port)
+		break
+	case "tls":
+		if *url == "" {
+			flag.PrintDefaults()
+			os.Exit(1)
+		}
+		tls.Cmd(*url, *port)
+		break
+	case "scan":
+		if *url == "" {
+			flag.PrintDefaults()
+			os.Exit(1)
+		}
+		check.Cmd(*url, *port)
+		tls.Cmd(*url, *port)
 		break
 	default:
 		flag.PrintDefaults()
