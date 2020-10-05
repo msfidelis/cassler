@@ -16,7 +16,7 @@ go test -v -race
 go get github.com/msfidelis/cassler
 ```
 
-### On Linux x64
+### On MacOSX
 
 ```bash
 wget https://github.com/msfidelis/cassler/releases/download/v0.0.6/cassler_0.0.6_darwin_amd64 -O /usr/local/bin/cassler
@@ -24,7 +24,7 @@ wget https://github.com/msfidelis/cassler/releases/download/v0.0.6/cassler_0.0.6
 chmod +x /usr/local/bin/cassler
 ```
 
-### On MacOSx
+### On Linux64
 
 ```bash
 wget https://github.com/msfidelis/cassler/releases/download/v0.0.6/cassler_0.0.6_linux_amd64 -O /usr/local/bin/cassler
