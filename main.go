@@ -12,7 +12,7 @@ import (
 func main() {
 	url := flag.String("url", "", "URL to validate certificate,ex: https://google.com")
 	port := flag.Int("port", 443, "Server port, default: 443")
-	mode := flag.String("mode", "check", "Actions; Default: `check`; Available options `check` for check certificates, `tls` to test TLS connection")
+	mode := flag.String("mode", "check", "Actions; Default: `check`; Available options `check` for check certificates, `tls` to test TLS connection, `scan` for complete checks on hosts")
 	flag.Parse()
 
 	switch strings.ToLower(*mode) {
