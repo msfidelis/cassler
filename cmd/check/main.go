@@ -2,6 +2,7 @@ package check
 
 import (
 	"crypto/tls"
+	"crypto/x509/pkix"
 	"fmt"
 	"net"
 	"time"
@@ -18,6 +19,8 @@ type Certificate struct {
 	IssuingCertificateURL []string
 	SignatureAlgorithm    string
 	Version               int
+	Issuer                pkix.Name
+	Subject               pkix.Name
 	DNSNames              []string
 }
 
@@ -68,6 +71,8 @@ func Cmd(url string, port int) {
 				certificate.IssuingCertificateURL = cert.IssuingCertificateURL
 				certificate.Version = cert.Version
 				certificate.DNSNames = cert.DNSNames
+				certificate.Issuer = cert.Issuer
+				certificate.Subject = cert.Subject
 
 				// Filter Certificate Authority
 				if cert.IsCA {
@@ -85,6 +90,8 @@ func Cmd(url string, port int) {
 	fmt.Printf("Server Certificate: \n")
 	for _, data := range certificate_list {
 		fmt.Printf("Common Name: %s\n", data.CommonName)
+		fmt.Printf("Issuer: %s\n", data.Issuer)
+		fmt.Printf("Subject: %s\n", data.Subject)
 		fmt.Printf("Signature Algorithm: %s\n", data.SignatureAlgorithm)
 		fmt.Printf("Created: %s\n", data.NotBefore)
 		fmt.Printf("Expires: %s\n", data.NotAfter)
@@ -111,10 +118,12 @@ func Cmd(url string, port int) {
 		fmt.Printf("* %s \n", ip)
 	}
 
-	fmt.Printf("\nCertificate Authority: \n")
+	fmt.Printf("\nCertificate Authority: \n\n")
 	for _, data := range certificate_authorities {
 
 		fmt.Printf("%s\n", data.CommonName)
+		fmt.Printf("Issuer: %s\n", data.Issuer)
+		fmt.Printf("Subject: %s\n", data.Subject)
 		fmt.Printf("Signature Algorithm: %s\n", data.SignatureAlgorithm)
 		fmt.Printf("Created: %s\n", data.NotBefore)
 		fmt.Printf("Expires: %s\n", data.NotAfter)
