@@ -41,23 +41,41 @@ cassler -h
 ### Check Certificates
 
 ```bash
-cassler --url https://google.com
+cassler --url google.com.br
 
-Checking Certificates: google.com on port 443
+Checking Certificates: google.com.br on port 443
 
 Server Certificate:
-Common Name: *.google.com
+Common Name: *.google.com.br
+Issuer: CN=GTS CA 1O1,O=Google Trust Services,C=US
+Subject: CN=*.google.com.br,O=Google LLC,L=Mountain View,ST=California,C=US
 Signature Algorithm: SHA256-RSA
-Created: 2020-09-03 06:36:33 +0000 UTC
-Expires: 2020-11-26 06:36:33 +0000 UTC
-Expiration time: 52 days
+Created: 2020-09-22 15:29:04 +0000 UTC
+Expires: 2020-12-15 15:29:04 +0000 UTC
+Expiration time: 64 days
+Certificate Version: 3
 
-Server IP's:
-* 2800:3f0:4001:813::200e
-* 172.217.172.142
+DNS Names:
+- *.google.com.br
+- google.com.br
+
+Issuing Certificate URL's:
+- http://pki.goog/gsr2/GTS1O1.crt
+
+Server IP's: 
+* 2800:3f0:4001:81b::2003
+* 172.217.173.99
 
 Certificate Authority:
-* GTS CA 1O1
+
+GTS CA 1O1
+Issuer: CN=GlobalSign,OU=GlobalSign Root CA - R2,O=GlobalSign
+Subject: CN=GTS CA 1O1,O=Google Trust Services,C=US
+Signature Algorithm: SHA256-RSA
+Created: 2017-06-15 00:00:42 +0000 UTC
+Expires: 2021-12-15 00:00:42 +0000 UTC
+Expiration time: 429 days
+Certificate Version: 3
 ```
 
 ### Check TLS Versions Enabled on Servers
@@ -68,16 +86,16 @@ cassler --url https://google.com --mode tls
 Testing TLS Versions: google.com on port 443
 
 TLS Versions Enabled on 2800:3f0:4001:813::200e:
-* tls1.0: true
-* tls1.1: true
-* tls1.2: true
-* tls1.3: true
+- tls1.0: true
+- tls1.1: true
+- tls1.2: true
+- tls1.3: true
 
 TLS Versions Enabled on 172.217.162.142:
-* tls1.0: true
-* tls1.1: true
-* tls1.2: true
-* tls1.3: true
+- tls1.0: true
+- tls1.1: true
+- tls1.2: true
+- tls1.3: true
 ```
 
 ### Full Scan 
@@ -85,29 +103,48 @@ TLS Versions Enabled on 172.217.162.142:
 ```bash
 cassler --url https://tls-v1-2.badssl.com --port 1012 --mode scan
 
-Checking Certificates: tls-v1-2.badssl.com on port 1012
+Checking Certificates: tls-v1-2.badssl.com on port 1012 
 
-Server Certificate:
+Server Certificate: 
 Common Name: *.badssl.com
+Issuer: CN=DigiCert SHA2 Secure Server CA,O=DigiCert Inc,C=US
+Subject: CN=*.badssl.com,O=Lucas Garron Torres,L=Walnut Creek,ST=California,C=US
 Signature Algorithm: SHA256-RSA
 Created: 2020-03-23 00:00:00 +0000 UTC
 Expires: 2022-05-17 12:00:00 +0000 UTC
-Expiration time: 589 days
+Expiration time: 582 days
+Certificate Version: 3
 
-Server IP's:
-* 104.154.89.105
+DNS Names: 
+- *.badssl.com
+- badssl.com
 
-Certificate Authority:
-* DigiCert SHA2 Secure Server CA
+Issuing Certificate URL's: 
+- http://cacerts.digicert.com/DigiCertSHA2SecureServerCA.crt
 
-Testing TLS Versions: tls-v1-2.badssl.com on port 1012
+Server IP's: 
+* 104.154.89.105 
 
-TLS Versions Enabled on 104.154.89.105:
-* tls1.0: false
-* tls1.1: false
-* tls1.2: true
-* tls1.3: false
+Certificate Authority: 
 
+DigiCert SHA2 Secure Server CA
+Issuer: CN=DigiCert Global Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US
+Subject: CN=DigiCert SHA2 Secure Server CA,O=DigiCert Inc,C=US
+Signature Algorithm: SHA256-RSA
+Created: 2013-03-08 12:00:00 +0000 UTC
+Expires: 2023-03-08 12:00:00 +0000 UTC
+Expiration time: 877 days
+Certificate Version: 3
+
+
+
+Testing TLS Versions: tls-v1-2.badssl.com on port 1012 
+
+TLS Versions Enabled on 104.154.89.105: 
+- tls1.0: false 
+- tls1.1: false 
+- tls1.2: true 
+- tls1.3: false
 ```
 
 ## Contributing

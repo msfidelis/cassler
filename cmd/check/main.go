@@ -101,14 +101,14 @@ func Cmd(url string, port int) {
 		if len(data.DNSNames) > 0 {
 			fmt.Printf("\nDNS Names: \n")
 			for _, dns := range data.DNSNames {
-				fmt.Printf("* %s\n", dns)
+				fmt.Printf("- %s\n", dns)
 			}
 		}
 
 		if len(data.IssuingCertificateURL) > 0 {
 			fmt.Printf("\nIssuing Certificate URL's: \n")
 			for _, url := range data.IssuingCertificateURL {
-				fmt.Printf("* %s\n", url)
+				fmt.Printf("- %s\n", url)
 			}
 		}
 	}
@@ -133,7 +133,7 @@ func Cmd(url string, port int) {
 		if len(data.IssuingCertificateURL) > 0 {
 			fmt.Printf("\n\nIssuing Certificate URL's: \n")
 			for _, url := range data.IssuingCertificateURL {
-				fmt.Printf("* %s\n", url)
+				fmt.Printf("- %s\n", url)
 			}
 		}
 
