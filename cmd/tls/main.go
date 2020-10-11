@@ -50,10 +50,10 @@ func Cmd(url string, port int) {
 
 	for ip, validation := range validation_list {
 		fmt.Printf("TLS Versions Enabled on %v: \n", ip)
-		fmt.Printf("* tls1.0: %v \n", validation.TLS10)
-		fmt.Printf("* tls1.1: %v \n", validation.TLS11)
-		fmt.Printf("* tls1.2: %v \n", validation.TLS12)
-		fmt.Printf("* tls1.3: %v \n", validation.TLS13)
+		fmt.Printf("- tls1.0: %v \n", validation.TLS10)
+		fmt.Printf("- tls1.1: %v \n", validation.TLS11)
+		fmt.Printf("- tls1.2: %v \n", validation.TLS12)
+		fmt.Printf("- tls1.3: %v \n", validation.TLS13)
 		fmt.Printf("\n")
 	}
 
