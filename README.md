@@ -1,4 +1,9 @@
+
+![logo](.github/assets/logo.jpeg)
+
 # Cassler - SSL Validator Tool
+
+> If your read fast, you it sounds like Cassia Eller
 
 Validate SSL around web :spider: 
 
