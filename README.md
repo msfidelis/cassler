@@ -3,7 +3,7 @@
 
 # Cassler - SSL Validator Tool
 
-> If your read fast, you it sounds like "Cassia Eller"
+> If your read fast, it's sounds like "Cassia Eller"
 
 Tooling to validate HTTPS Certificates and Connections Around Web :spider: 
 
@@ -29,7 +29,7 @@ wget https://github.com/msfidelis/cassler/releases/download/v0.0.7/cassler_0.0.7
 chmod +x /usr/local/bin/cassler
 ```
 
-### On Linux64
+### On Linux x64
 
 ```bash
 wget https://github.com/msfidelis/cassler/releases/download/v0.0.7/cassler_0.0.7_linux_amd64 -O /usr/local/bin/cassler
