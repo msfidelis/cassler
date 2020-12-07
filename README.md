@@ -37,6 +37,12 @@ wget https://github.com/msfidelis/cassler/releases/download/v0.0.9/cassler_0.0.9
 chmod +x /usr/local/bin/cassler
 ```
 
+### Running on Docker
+
+```bash
+docker run -it fidelissauro/cassler:latest --url google.com
+```
+
 ## Usage
 
 ```bash
