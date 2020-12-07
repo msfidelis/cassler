@@ -133,7 +133,7 @@ func TestParserHours(t *testing.T) {
 
 // Lookup
 func TestLookupIsResolving(t *testing.T) {
-	ips := lookup.Lookup(expected_url)
+	ips := lookup.Lookup(expected_url, "8.8.8.8")
 
 	if len(ips) == 0 {
 		t.Errorf("Expected len > 0, got %d", len(ips))

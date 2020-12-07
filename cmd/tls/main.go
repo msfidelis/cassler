@@ -11,7 +11,7 @@ import (
 )
 
 type Validation struct {
-	Ip    net.IP
+	Ip    string
 	Host  string
 	TLS10 bool
 	TLS11 bool
@@ -19,9 +19,9 @@ type Validation struct {
 	TLS13 bool
 }
 
-func Cmd(url string, port int) {
+func Cmd(url string, port int, dns_server string) {
 	host := parser.ParseHost(url)
-	ips := lookup.Lookup(host)
+	ips := lookup.Lookup(host, dns_server)
 
 	tls_versions := map[string]uint16{
 		"tls1.0": tls.VersionTLS10,
@@ -32,7 +32,8 @@ func Cmd(url string, port int) {
 
 	validation_list := make(map[string]Validation)
 
-	fmt.Printf("\nTesting TLS Versions: %s on port %d \n\n", host, port)
+	fmt.Printf("\nTesting TLS Versions: %s on port %d \n", host, port)
+	fmt.Printf("\nDNS Lookup on: %s \n\n", dns_server)
 
 	for _, ip := range ips {
 
@@ -59,7 +60,7 @@ func Cmd(url string, port int) {
 
 }
 
-func Check(host string, ip net.IP, port int, tls_version uint16) bool {
+func Check(host string, ip string, port int, tls_version uint16) bool {
 	conn_config := &tls.Config{
 		ServerName:         host,
 		InsecureSkipVerify: false,

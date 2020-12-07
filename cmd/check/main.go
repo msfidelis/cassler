@@ -24,16 +24,17 @@ type Certificate struct {
 	DNSNames              []string
 }
 
-func Cmd(url string, port int) {
+func Cmd(url string, port int, dns_server string) {
 
 	host := parser.ParseHost(url)
-	ips := lookup.Lookup(host)
+	ips := lookup.Lookup(host, dns_server)
 
 	checked_certificates := make(map[string]string)
 	certificate_authorities := make(map[string]Certificate)
 	certificate_list := make(map[string]Certificate)
 
 	fmt.Printf("Checking Certificates: %s on port %d \n\n", host, port)
+	fmt.Printf("\nDNS Lookup on: %s \n\n", dns_server)
 
 	for _, ip := range ips {
 

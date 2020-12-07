@@ -152,6 +152,39 @@ TLS Versions Enabled on 104.154.89.105:
 - tls1.3: false
 ```
 
+### Specify a DNS Server
+
+```bash
+cassler --url raj.ninja --mode scan --dns 1.1.1.1
+Checking Certificates: raj.ninja on port 443
+
+
+DNS Lookup on: 1.1.1.1
+
+Server Certificate:
+Common Name: raj.ninja
+Issuer: CN=Let's Encrypt Authority X3,O=Let's Encrypt,C=US
+Subject: CN=raj.ninja
+Signature Algorithm: SHA256-RSA
+Created: 2020-11-26 20:46:27 +0000 UTC
+Expires: 2021-02-24 20:46:27 +0000 UTC
+Expiration time: 78 days
+Certificate Version: 3
+
+DNS Names:
+- raj.ninja
+
+Issuing Certificate URL's:
+- http://cert.int-x3.letsencrypt.org/
+
+Server IP's:
+* 185.199.110.153
+* 185.199.111.153
+* 185.199.109.153
+* 185.199.108.153
+```
+
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
