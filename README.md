@@ -24,7 +24,7 @@ go get github.com/msfidelis/cassler
 ### On MacOSX
 
 ```bash
-wget https://github.com/msfidelis/cassler/releases/download/v0.0.7/cassler_0.0.7_darwin_amd64 -O /usr/local/bin/cassler
+wget https://github.com/msfidelis/cassler/releases/download/v0.0.8/cassler_0.0.8_darwin_amd64 -O /usr/local/bin/cassler
 
 chmod +x /usr/local/bin/cassler
 ```
@@ -32,7 +32,7 @@ chmod +x /usr/local/bin/cassler
 ### On Linux x64
 
 ```bash
-wget https://github.com/msfidelis/cassler/releases/download/v0.0.7/cassler_0.0.7_linux_amd64 -O /usr/local/bin/cassler
+wget https://github.com/msfidelis/cassler/releases/download/v0.0.8/cassler_0.0.8_linux_amd64 -O /usr/local/bin/cassler
 
 chmod +x /usr/local/bin/cassler
 ```
