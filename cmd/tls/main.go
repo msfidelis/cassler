@@ -3,11 +3,10 @@ package tls
 import (
 	"crypto/tls"
 	"fmt"
-	"net"
-	"time"
 
 	"github.com/msfidelis/cassler/src/libs/lookup"
 	"github.com/msfidelis/cassler/src/libs/parser"
+	"github.com/msfidelis/cassler/src/libs/tls_check"
 )
 
 type Validation struct {
@@ -41,10 +40,10 @@ func Cmd(url string, port int, dns_server string) {
 
 		validation.Ip = ip
 		validation.Host = host
-		validation.TLS10 = Check(host, ip, port, tls_versions["tls1.0"])
-		validation.TLS11 = Check(host, ip, port, tls_versions["tls1.1"])
-		validation.TLS12 = Check(host, ip, port, tls_versions["tls1.2"])
-		validation.TLS13 = Check(host, ip, port, tls_versions["tls1.3"])
+		validation.TLS10 = tls_check.Check(host, ip, port, tls_versions["tls1.0"])
+		validation.TLS11 = tls_check.Check(host, ip, port, tls_versions["tls1.1"])
+		validation.TLS12 = tls_check.Check(host, ip, port, tls_versions["tls1.2"])
+		validation.TLS13 = tls_check.Check(host, ip, port, tls_versions["tls1.3"])
 
 		validation_list[fmt.Sprintf("%v", ip)] = validation
 	}
@@ -58,21 +57,4 @@ func Cmd(url string, port int, dns_server string) {
 		fmt.Printf("\n")
 	}
 
-}
-
-func Check(host string, ip string, port int, tls_version uint16) bool {
-	conn_config := &tls.Config{
-		ServerName:         host,
-		InsecureSkipVerify: false,
-		MinVersion:         tls_version,
-		MaxVersion:         tls_version,
-	}
-	dialer := net.Dialer{Timeout: 1000000000, Deadline: time.Now().Add(1000000000 + 5*time.Second)}
-	_, err := tls.DialWithDialer(&dialer, "tcp", fmt.Sprintf("[%s]:%d", ip, port), conn_config)
-
-	if err != nil {
-		return false
-	} else {
-		return true
-	}
 }

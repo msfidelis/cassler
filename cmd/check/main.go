@@ -33,7 +33,7 @@ func Cmd(url string, port int, dns_server string) {
 	certificate_authorities := make(map[string]Certificate)
 	certificate_list := make(map[string]Certificate)
 
-	fmt.Printf("Checking Certificates: %s on port %d \n\n", host, port)
+	fmt.Printf("Checking Certificates: %s on port %d \n", host, port)
 	fmt.Printf("\nDNS Lookup on: %s \n\n", dns_server)
 
 	for _, ip := range ips {
