@@ -30,6 +30,12 @@ Tooling to validate HTTPS Certificates and Connections Around Web :spider:
 go test -v -race
 ```
 
+## Running Linter
+
+```bash
+golint -set_exit_status ./...
+```
+
 ## Installation
 
 ### Using Go tools
