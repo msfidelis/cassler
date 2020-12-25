@@ -1,8 +1,6 @@
 name: 'cassler ci'
 on:
   push:
-  pull_request:
-    types: [ opened, reopened ]
 jobs:
   unit-test:
     strategy:
