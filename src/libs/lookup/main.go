@@ -7,7 +7,8 @@ import (
 	"time"
 )
 
-func Lookup(url string, dns_server string) []string {
+// Lookup URL to return a list of IP's
+func Lookup(url string, dnsServer string) []string {
 	timer := time.NewTimer(1000000000)
 	ch := make(chan []string, 1)
 	go func() {
@@ -17,7 +18,7 @@ func Lookup(url string, dns_server string) []string {
 				d := net.Dialer{
 					Timeout: time.Millisecond * time.Duration(10000),
 				}
-				return d.DialContext(ctx, "udp", fmt.Sprintf("%s:%s", dns_server, "53"))
+				return d.DialContext(ctx, "udp", fmt.Sprintf("%s:%s", dnsServer, "53"))
 			},
 		}
 		ip, err := r.LookupHost(context.Background(), url)

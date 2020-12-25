@@ -11,6 +11,7 @@ import (
 	"github.com/msfidelis/cassler/src/libs/parser"
 )
 
+// A Certificate infos to parse
 type Certificate struct {
 	CommonName            string
 	NotBefore             time.Time
@@ -24,43 +25,44 @@ type Certificate struct {
 	DNSNames              []string
 }
 
-func Cmd(url string, port int, dns_server string) {
+// Cmd to check TLS versions enabled on hosts
+func Cmd(url string, port int, dnsServer string) {
 
 	host := parser.ParseHost(url)
-	ips := lookup.Lookup(host, dns_server)
+	ips := lookup.Lookup(host, dnsServer)
 
-	checked_certificates := make(map[string]string)
-	certificate_authorities := make(map[string]Certificate)
-	certificate_list := make(map[string]Certificate)
+	checkedCertificates := make(map[string]string)
+	certificateAuthorities := make(map[string]Certificate)
+	certificateList := make(map[string]Certificate)
 
 	fmt.Printf("Checking Certificates: %s on port %d \n", host, port)
-	fmt.Printf("\nDNS Lookup on: %s \n\n", dns_server)
+	fmt.Printf("\nDNS Lookup on: %s \n\n", dnsServer)
 
 	for _, ip := range ips {
 
-		conn_config := &tls.Config{
+		connConfig := &tls.Config{
 			ServerName:         host,
 			InsecureSkipVerify: true,
 		}
 
 		dialer := net.Dialer{Timeout: 1000000000, Deadline: time.Now().Add(1000000000 + 5*time.Second)}
-		connection, err := tls.DialWithDialer(&dialer, "tcp", fmt.Sprintf("[%s]:%d", ip, port), conn_config)
+		connection, err := tls.DialWithDialer(&dialer, "tcp", fmt.Sprintf("[%s]:%d", ip, port), connConfig)
 
 		if err != nil {
 			fmt.Printf("%v\n", err)
 		} else {
 
-			certificate_negotiation_list := connection.ConnectionState().PeerCertificates
+			certificateNegotiationList := connection.ConnectionState().PeerCertificates
 
-			for i := 0; i < len(certificate_negotiation_list); i++ {
-				cert := certificate_negotiation_list[i]
+			for i := 0; i < len(certificateNegotiationList); i++ {
+				cert := certificateNegotiationList[i]
 
 				// Filter Certificate Already Validated
-				if _, checked := checked_certificates[string(cert.Signature)]; checked {
+				if _, checked := checkedCertificates[string(cert.Signature)]; checked {
 					continue
 				}
 
-				checked_certificates[string(cert.Signature)] = cert.Subject.CommonName
+				checkedCertificates[string(cert.Signature)] = cert.Subject.CommonName
 
 				var certificate Certificate
 
@@ -77,11 +79,11 @@ func Cmd(url string, port int, dns_server string) {
 
 				// Filter Certificate Authority
 				if cert.IsCA {
-					certificate_authorities[string(cert.Subject.CommonName)] = certificate
+					certificateAuthorities[string(cert.Subject.CommonName)] = certificate
 					continue
 				}
 
-				certificate_list[string(cert.Subject.CommonName)] = certificate
+				certificateList[string(cert.Subject.CommonName)] = certificate
 
 			}
 		}
@@ -89,7 +91,7 @@ func Cmd(url string, port int, dns_server string) {
 	}
 
 	fmt.Printf("Server Certificate: \n")
-	for _, data := range certificate_list {
+	for _, data := range certificateList {
 		fmt.Printf("Common Name: %s\n", data.CommonName)
 		fmt.Printf("Issuer: %s\n", data.Issuer)
 		fmt.Printf("Subject: %s\n", data.Subject)
@@ -120,7 +122,7 @@ func Cmd(url string, port int, dns_server string) {
 	}
 
 	fmt.Printf("\nCertificate Authority: \n\n")
-	for _, data := range certificate_authorities {
+	for _, data := range certificateAuthorities {
 
 		fmt.Printf("%s\n", data.CommonName)
 		fmt.Printf("Issuer: %s\n", data.Issuer)
