@@ -20,7 +20,7 @@ func Check(host string, ip string, port int, tlsVersion uint16) bool {
 
 	if err != nil {
 		return false
-	} else {
-		return true
 	}
+
+	return true
 }
