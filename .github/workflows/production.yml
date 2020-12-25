@@ -16,10 +16,24 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
 
-      - uses: actions/checkout@v1
+      - name: setup GOPATH into PATH
+        run: |
+          echo "::set-env name=GOPATH::$(go env GOPATH)"
+          echo "::add-path::$(go env GOPATH)/bin"
+        shell: bash
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true  
+
+      - uses: actions/checkout@v2
 
       - name: Install dependencies
         run: go get -u 
+
+      - name: Run's Golint 
+        run: |
+            export PATH=$PATH:$(go env GOPATH)/bin
+            go get -u golang.org/x/lint/golint
+            golint -set_exit_status ./...
 
       - name: Test
         run: go test -v

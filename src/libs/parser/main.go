@@ -2,6 +2,7 @@ package parser
 
 import "strings"
 
+// ParseHost is a way to normalize URL's
 func ParseHost(url string) string {
 	var result string
 	result = strings.ToLower(url)
@@ -12,6 +13,7 @@ func ParseHost(url string) string {
 	return result
 }
 
+// ParseDurationInDays is a way to determine how many days to certificate expires
 func ParseDurationInDays(duration float64) int {
 	floatDays := duration / 24
 	parsedDays := int(floatDays)
