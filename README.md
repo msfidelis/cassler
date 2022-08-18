@@ -20,7 +20,7 @@
 
 # Cassler - SSL Validator Tool
 
-> If your read fast, it's sounds like "Cassia Eller"
+> Cassler is an CA's and SSL certificates analyzer. But if your read fast, it's sounds like "Cassia Eller"
 
 Tooling to validate HTTPS Certificates and Connections Around Web :spider: 
 
