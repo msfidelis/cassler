@@ -35,3 +35,15 @@ func Lookup(url string, dnsServer string) []string {
 	}
 	return make([]string, 0)
 }
+
+
+func ReverseLookup(ip string) ([]string, error) {
+	addr, err := net.LookupAddr(ip)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return addr, err
+	}
+
+}

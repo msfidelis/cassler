@@ -47,7 +47,7 @@ go get github.com/msfidelis/cassler
 ### On MacOSX
 
 ```bash
-wget https://github.com/msfidelis/cassler/releases/download/v0.0.9/cassler_0.0.9_darwin_amd64 -O /usr/local/bin/cassler
+wget https://github.com/msfidelis/cassler/releases/download/v0.0.10/cassler_0.0.10_darwin_amd64 -O /usr/local/bin/cassler
 
 chmod +x /usr/local/bin/cassler
 ```
@@ -55,7 +55,7 @@ chmod +x /usr/local/bin/cassler
 ### On Linux x64
 
 ```bash
-wget https://github.com/msfidelis/cassler/releases/download/v0.0.9/cassler_0.0.9_linux_amd64 -O /usr/local/bin/cassler
+wget https://github.com/msfidelis/cassler/releases/download/v0.0.10/cassler_0.0.10_linux_amd64 -O /usr/local/bin/cassler
 
 chmod +x /usr/local/bin/cassler
 ```
@@ -70,6 +70,17 @@ docker run -it fidelissauro/cassler:latest --url google.com
 
 ```bash
 cassler -h
+
+  -dns string
+    	DNS Server, default 8.8.8.8 (default "8.8.8.8")
+  -lookup
+    	Check reverse DNS Lookup for hosts IP's
+  -mode check
+    	Actions; Default: check; Available options `check` for check certificates, `tls` to test TLS connection, `scan` for complete checks on hosts (default "check")
+  -port int
+    	Server port, default: 443 (default 443)
+  -url string
+    	URL to validate SSL certificate,ex: https://google.com
 ```
 
 ### Check Certificates
@@ -132,53 +143,107 @@ TLS Versions Enabled on 172.217.162.142:
 - tls1.3: true
 ```
 
+### Check TLS Versions Enabled on Servers, with Reverse DNS Lookup 
+
+```bash
+cassler --url https://google.com --mode tls --lookup
+
+Testing TLS Versions: google.com on port 443
+
+DNS Lookup on: 8.8.8.8
+
+TLS Versions Enabled on 2800:3f0:4001:824::200e:
+- tls1.0: true
+- tls1.1: true
+- tls1.2: true
+- tls1.3: true
+
+TLS Versions Enabled on 142.250.219.174:
+- tls1.0: true
+- tls1.1: true
+- tls1.2: true
+- tls1.3: true
+
+
+Starting reverse DNS Lookup on:  2800:3f0:4001:824::200e:
+
+Starting reverse DNS Lookup on:  142.250.219.174:
+142.250.219.174:  gru06s63-in-f14.1e100.net.
+```
+
 ### Full Scan 
 
 ```bash
 cassler --url https://tls-v1-2.badssl.com --port 1012 --mode scan
 
-Checking Certificates: tls-v1-2.badssl.com on port 1012 
+Checking Certificates: tls-v1-2.badssl.com on port 1012
 
-Server Certificate: 
+DNS Lookup on: 8.8.8.8
+
+Server Certificate:
 Common Name: *.badssl.com
-Issuer: CN=DigiCert SHA2 Secure Server CA,O=DigiCert Inc,C=US
-Subject: CN=*.badssl.com,O=Lucas Garron Torres,L=Walnut Creek,ST=California,C=US
+Issuer: CN=R3,O=Let's Encrypt,C=US
+Subject: CN=*.badssl.com
 Signature Algorithm: SHA256-RSA
-Created: 2020-03-23 00:00:00 +0000 UTC
-Expires: 2022-05-17 12:00:00 +0000 UTC
-Expiration time: 582 days
+Created: 2022-08-12 14:57:46 +0000 UTC
+Expires: 2022-11-10 14:57:45 +0000 UTC
+Expiration time: 83 days
 Certificate Version: 3
 
-DNS Names: 
+DNS Names:
 - *.badssl.com
 - badssl.com
 
-Issuing Certificate URL's: 
-- http://cacerts.digicert.com/DigiCertSHA2SecureServerCA.crt
+Issuing Certificate URL's:
+- http://r3.i.lencr.org/
 
-Server IP's: 
-* 104.154.89.105 
+Server IP's:
+* 104.154.89.105
 
-Certificate Authority: 
+Certificate Authority:
 
-DigiCert SHA2 Secure Server CA
-Issuer: CN=DigiCert Global Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US
-Subject: CN=DigiCert SHA2 Secure Server CA,O=DigiCert Inc,C=US
+R3
+Issuer: CN=ISRG Root X1,O=Internet Security Research Group,C=US
+Subject: CN=R3,O=Let's Encrypt,C=US
 Signature Algorithm: SHA256-RSA
-Created: 2013-03-08 12:00:00 +0000 UTC
-Expires: 2023-03-08 12:00:00 +0000 UTC
-Expiration time: 877 days
+Created: 2020-09-04 00:00:00 +0000 UTC
+Expires: 2025-09-15 16:00:00 +0000 UTC
+Expiration time: 1123 days
 Certificate Version: 3
 
 
+Issuing Certificate URL's:
+- http://x1.i.lencr.org/
 
-Testing TLS Versions: tls-v1-2.badssl.com on port 1012 
 
-TLS Versions Enabled on 104.154.89.105: 
-- tls1.0: false 
-- tls1.1: false 
-- tls1.2: true 
+ISRG Root X1
+Issuer: CN=DST Root CA X3,O=Digital Signature Trust Co.
+Subject: CN=ISRG Root X1,O=Internet Security Research Group,C=US
+Signature Algorithm: SHA256-RSA
+Created: 2021-01-20 19:14:03 +0000 UTC
+Expires: 2024-09-30 18:14:03 +0000 UTC
+Expiration time: 773 days
+Certificate Version: 3
+
+
+Issuing Certificate URL's:
+- http://apps.identrust.com/roots/dstrootcax3.p7c
+
+
+
+Testing TLS Versions: tls-v1-2.badssl.com on port 1012
+
+DNS Lookup on: 8.8.8.8
+
+TLS Versions Enabled on 104.154.89.105:
+- tls1.0: false
+- tls1.1: false
+- tls1.2: true
 - tls1.3: false
+
+
+Starting reverse DNS Lookup on:  104.154.89.105:
+104.154.89.105:  105.89.154.104.bc.googleusercontent.com.
 ```
 
 ### Specify a DNS Server
