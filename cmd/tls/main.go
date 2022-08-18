@@ -3,7 +3,6 @@ package tls
 import (
 	"crypto/tls"
 	"fmt"
-
 	"github.com/msfidelis/cassler/src/libs/lookup"
 	"github.com/msfidelis/cassler/src/libs/parser"
 	"github.com/msfidelis/cassler/src/libs/tlscheck"
@@ -20,7 +19,7 @@ type Validation struct {
 }
 
 // Cmd to check TLS versions enabled on hosts
-func Cmd(url string, port int, dnsServer string) {
+func Cmd(url string, port int, dnsServer string, reverseLookup bool) {
 	host := parser.ParseHost(url)
 	ips := lookup.Lookup(host, dnsServer)
 
@@ -58,5 +57,37 @@ func Cmd(url string, port int, dnsServer string) {
 		fmt.Printf("- tls1.3: %v \n", validation.TLS13)
 		fmt.Printf("\n")
 	}
+
+	if (reverseLookup == true) {
+
+		for _, ip := range ips {
+			fmt.Printf("\nStarting reverse DNS Lookup on:  %v: \n", ip)
+			domains, err := lookup.ReverseLookup(ip)
+			if err != nil {
+				fmt.Printf("\nError to reverse lookup on %v\n", ip)
+				fmt.Println(err)
+			} else {
+				for _, ad := range domains {
+					fmt.Printf("%v:  %v\n", ip, ad)
+				}
+			}
+		}
+
+
+		// for _, ip := range ips {
+		// 	fmt.Printf("\nStarting reverse DNS Lookup on:  %v: \n", ip)
+		// 	addr, err := net.LookupAddr(ip)
+
+		// 	if err != nil {
+		// 		fmt.Printf("\nError to reverse lookup on %v\n", ip)
+		// 		fmt.Println(err)
+		// 	} else {
+		// 		for _, ad := range addr {
+		// 			fmt.Printf("%v:  %v\n", ip, ad)
+		// 		}
+		// 	}
+		// }
+	}
+
 
 }

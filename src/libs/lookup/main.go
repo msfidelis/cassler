@@ -35,3 +35,13 @@ func Lookup(url string, dnsServer string) []string {
 	}
 	return make([]string, 0)
 }
+
+// ReverseLookup return a string list with DNS found for requested IP address
+func ReverseLookup(ip string) ([]string, error) {
+	addr, err := net.LookupAddr(ip)
+
+	if err != nil {
+		return nil, err
+	} 
+	return addr, err
+}
