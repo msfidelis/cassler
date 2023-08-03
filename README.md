@@ -44,10 +44,18 @@ golint -set_exit_status ./...
 go get github.com/msfidelis/cassler
 ```
 
-### On MacOSX
+### On MacOSX amd64
 
 ```bash
 wget https://github.com/msfidelis/cassler/releases/download/v0.0.12/cassler_0.0.12_darwin_amd64 -O /usr/local/bin/cassler
+
+chmod +x /usr/local/bin/cassler
+```
+
+### On MacOSX arm64
+
+```bash
+wget https://github.com/msfidelis/cassler/releases/download/v0.0.12/cassler_0.0.12_darwin_arm64 -O /usr/local/bin/cassler
 
 chmod +x /usr/local/bin/cassler
 ```
