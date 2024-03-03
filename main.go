@@ -24,14 +24,12 @@ func main() {
 			os.Exit(1)
 		}
 		check.Cmd(*url, *port, *dnsServer)
-		break
 	case "tls":
 		if *url == "" {
 			flag.PrintDefaults()
 			os.Exit(1)
 		}
 		tls.Cmd(*url, *port, *dnsServer, *reverseLookup)
-		break
 	case "scan":
 		if *url == "" {
 			flag.PrintDefaults()
@@ -39,7 +37,6 @@ func main() {
 		}
 		check.Cmd(*url, *port, *dnsServer)
 		tls.Cmd(*url, *port, *dnsServer, true)
-		break
 	default:
 		flag.PrintDefaults()
 		os.Exit(1)
