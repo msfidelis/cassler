@@ -3,6 +3,7 @@ package tls
 import (
 	"crypto/tls"
 	"fmt"
+
 	"github.com/msfidelis/cassler/src/libs/lookup"
 	"github.com/msfidelis/cassler/src/libs/parser"
 	"github.com/msfidelis/cassler/src/libs/tlscheck"
@@ -58,7 +59,7 @@ func Cmd(url string, port int, dnsServer string, reverseLookup bool) {
 		fmt.Printf("\n")
 	}
 
-	if (reverseLookup == true) {
+	if reverseLookup {
 
 		for _, ip := range ips {
 			fmt.Printf("\nStarting reverse DNS Lookup on:  %v: \n", ip)
@@ -72,7 +73,6 @@ func Cmd(url string, port int, dnsServer string, reverseLookup bool) {
 				}
 			}
 		}
-
 
 		// for _, ip := range ips {
 		// 	fmt.Printf("\nStarting reverse DNS Lookup on:  %v: \n", ip)
@@ -88,6 +88,5 @@ func Cmd(url string, port int, dnsServer string, reverseLookup bool) {
 		// 	}
 		// }
 	}
-
 
 }
