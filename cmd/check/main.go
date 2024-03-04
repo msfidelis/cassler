@@ -69,7 +69,7 @@ func Cmd(url string, port int, dnsServer string) {
 				certificate.CommonName = cert.Subject.CommonName
 				certificate.NotAfter = cert.NotAfter
 				certificate.NotBefore = cert.NotBefore
-				certificate.TimeRemain = cert.NotAfter.Sub(time.Now())
+				certificate.TimeRemain = time.Until(cert.NotAfter)
 				certificate.SignatureAlgorithm = cert.SignatureAlgorithm.String()
 				certificate.IssuingCertificateURL = cert.IssuingCertificateURL
 				certificate.Version = cert.Version
