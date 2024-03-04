@@ -18,9 +18,5 @@ func Check(host string, ip string, port int, tlsVersion uint16) bool {
 	dialer := net.Dialer{Timeout: 1000000000, Deadline: time.Now().Add(1000000000 + 5*time.Second)}
 	_, err := tls.DialWithDialer(&dialer, "tcp", fmt.Sprintf("[%s]:%d", ip, port), connConfig)
 
-	if err != nil {
-		return false
-	}
-
-	return true
+	return err == nil
 }
