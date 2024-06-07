@@ -9,7 +9,7 @@ RUN go get -u
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o cassler .
 
 
-FROM scratch
+FROM cgr.dev/chainguard/wolfi-base:latest
 
 COPY --from=builder /go/src/cassler/cassler ./
 
